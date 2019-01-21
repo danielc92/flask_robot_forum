@@ -30,7 +30,6 @@ Key notes:
 - comment_date
 
 
-
 # Before you get started
 Concepts you should be familiar with before starting;
 - web applications
@@ -56,7 +55,7 @@ pip install pandas flask flask-sqlalchemy
 ```
 
 # Tests
-- No tests performed at this point in time.
+- Tested function to return robot text for threads and comments using this [generator](http://carterschieffer.com/hello-robot)
 
 # Contributors
 - Daniel Corcoran
