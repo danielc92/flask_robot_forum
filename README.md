@@ -1,36 +1,46 @@
-# Project Title
-A few sentences about the project.
-What are you building?
-What problem are you trying to solve?
-Who is the project for? Timeframe?
+# Robot Forum
+A forum built in `flask` and `bulma` using fictional data.
+
+Key notes:
+1. Dummy data to be generated in python and exported to sqlite db file.
+2. db file feeds into web application using flask-sqlalchemy
+3. Avatar files can be generated using `robohash`.
+4. 
+5. 
 
 # Before you get started
-Concepts/Software/Programming modules a user may have to read up on before getting started with this project. eg. 'Read about [neural networks](https://towardsdatascience.com/how-to-build-your-own-neural-network-from-scratch-in-python-68998a08e4f6?gi=44b811975215) before getting started.'
+Concepts you should be familiar with before starting;
+- web applications
+- databases/orm
+- https/requests
+- flask
+- python
 
 # Setup
 **How to obtain this repository:**
 ```sh
-git clone https//link.to.this.projects.git-repo
+git clone https://github.com/danielc92/flask_robot_forum.git
 ```
 **Modules/dependencies:**
 - `pandas`
-- `requests`
-- `jupyter`
-- `sklearn`
+- `flask`
+- `flask-sqlalchemy`
+- `bulma` css framework
 
 Install the following dependences:
 ```sh
-cd /local/location/of/this/repo
-pip install requirements.txt
+pip install pandas flask flask-sqlalchemy
 ```
 
 # Tests
-- Tests performed on this project. What did you do? Which files were used? Was it successful?
+- No tests performed at this point in time.
 
 # Contributors
-- Name of Contributor 1
-- Name of Contributor 2
+- Daniel Corcoran
 
 # Sources
-- Sources for techniques/tutorials used in this project to help newcomers
-- Sources for data used in this project
+- [Robohash - Avatar generator](https://robohash.org/)
+- [Flask-SQLAlchemy documentation](http://flask-sqlalchemy.pocoo.org/2.3/)
+- [Flask documentation](http://flask.pocoo.org/docs/1.0/)
+- [Bulma CSS framework](https://bulma.io/documentation/overview/start/)
+- [Heroku (paas)](https://www.heroku.com/)
