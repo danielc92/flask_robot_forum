@@ -8,6 +8,29 @@ Key notes:
 4. 
 5. 
 
+# Meta Data
+**robots**
+- robot_id
+- robot_name
+- robot_age
+- robot_joined
+
+**threads**
+- thread_robot_id
+- thread_id
+- thread_name
+- thread_content
+- thread_tags
+- thread_date
+
+**comments**
+- comment_thread_id
+- comment_id
+- comment_content
+- comment_date
+
+
+
 # Before you get started
 Concepts you should be familiar with before starting;
 - web applications
@@ -44,3 +67,4 @@ pip install pandas flask flask-sqlalchemy
 - [Flask documentation](http://flask.pocoo.org/docs/1.0/)
 - [Bulma CSS framework](https://bulma.io/documentation/overview/start/)
 - [Heroku (paas)](https://www.heroku.com/)
+- [Hello Robot - text generator](http://carterschieffer.com/hello-robot/)
