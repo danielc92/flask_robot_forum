@@ -60,6 +60,7 @@ pip install pandas flask flask-sqlalchemy
 # Tests
 - Tested function to return robot text for threads and comments using this [generator](http://carterschieffer.com/hello-robot)
 - Generated dummy data for `robots`, `threads` and `comments` tables to `forum-data` subdirectory.
+- Pushed dummy data .csv files into sqlite.db file succesfully
 
 # Contributors
 - Daniel Corcoran
