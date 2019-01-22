@@ -1,12 +1,17 @@
 # Robot Forum
 A forum built in `flask` and `bulma` using fictional data.
 
-Key notes:
-1. Dummy data to be generated in python and exported to sqlite db file.
-2. db file feeds into web application using flask-sqlalchemy
-3. Avatar files can be generated using `robohash`.
-4. 
-5. 
+# Process
+1. Generate dummy data for the application.
+2. Push dummy data into `sqlite3` database file.
+3. Test interactions between application and database file.
+4. Assign avatar images using `robohash` site.
+5. Create a master template (`base.html`) which other pages will be generated from (members, threads etc).
+6. Google fonts/Bulma to be used for styling the application.
+7. Code in routes for custom pages.
+8. Add bi-directional links within routes.
+9. Test routes and make sure they work as intended.
+10. Deploy to heroku and test.
 
 # Meta Data
 **robots**
