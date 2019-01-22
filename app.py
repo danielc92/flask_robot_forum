@@ -6,20 +6,65 @@ app = Flask(__name__, static_folder='static')
 app.debug = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 current_directory = os.getcwd()
-database_path = '/notebooks/robots'
+database_path = '/notebooks/robot.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = \
     'sqlite:///' + current_directory + database_path
+print(app.config['SQLALCHEMY_DATABASE_URI'])
 db = SQLAlchemy(app)
 
 class Robots(db.Model):
-	"""Maps to robots table"""
-	__table_name__ = 'robots'
-	robot_id = db.Column('robot_id', db.Float)
-	robot_name = db.Column('robot_name', db.Text)
-	robot_avatar = db.Column('robot_avatar', db.Text)
-	robot_age = db.Column('robot_age', db.Float)
-	robot_joined = db.Column('robot_joined', db.Text)
+    """Maps to robots table"""
+    __tablename__ = 'robots'
+
+    robot_id = db.Column(db.Float, primary_key=True)
+    robot_name = db.Column(db.Text)
+    robot_avatar = db.Column(db.Text)
+    robot_age = db.Column(db.Float)
+    robot_joined = db.Column(db.Text)
+
+    def __repr__(self):
+        return '<robots %r>' % self.robot_id
+
+class Threads(db.Model):
+    """Maps to threads table"""
+    __tablename__ = 'threads'
+
+    thread_id = db.Column(db.Float, primary_key=True)
+    thread_robot_id = db.Column(db.Float)
+    thread_name = db.Column(db.Text)
+    thread_tags = db.Column(db.Text)
+    thread_content = db.Column(db.Text)
+    thread_date = db.Column(db.Text)
+    thread_stars = db.Column(db.Float)
+
+    def __repr__(self):
+        return '<threads %r>' % self.thread_id
+
+class Comments(db.Model):
+    """Maps to comments table"""
+    __tablename__ = 'comments'
+
+    comment_id = db.Column(db.Float, primary_key=True)
+    comment_thread_id = db.Column(db.Float)
+    comment_content = db.Column(db.Text)
+    comment_date = db.Column(db.Text)
+    comment_thumbs_up = db.Column(db.Float)
+    comment_thumbs_down = db.Column(db.Float)
+
+    def __repr__(self):
+        return '<comments %r>' % self.comment_id
+
 
 @app.route('/')
 def home():
-	return '<h1>Hello World</h1>'
+    return '<h1>Home Route</h1>'
+
+@app.route('/test/')
+def test():
+    robots = Robots.query.all()
+    threads = Threads.query.all()
+    comments = Comments.query.all()
+    print(robots)
+    print(threads)
+    print(comments)
+    return '<h1>Test Route</h1>'
