@@ -62,6 +62,7 @@ pip install pandas flask flask-sqlalchemy
 - Generated dummy data for `robots`, `threads` and `comments` tables to `forum-data` subdirectory.
 - Pushed dummy data .csv files into sqlite.db file succesfully
 - Mapped each table from database to flask application using flask-sqlalchemy
+- Tested pushing query result into render template for loop
 
 # Contributors
 - Daniel Corcoran

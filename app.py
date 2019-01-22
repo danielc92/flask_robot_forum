@@ -1,3 +1,4 @@
+
 from flask import Flask,render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -11,6 +12,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
     'sqlite:///' + current_directory + database_path
 print(app.config['SQLALCHEMY_DATABASE_URI'])
 db = SQLAlchemy(app)
+
+# Database Models
 
 class Robots(db.Model):
     """Maps to robots table"""
@@ -54,10 +57,12 @@ class Comments(db.Model):
     def __repr__(self):
         return '<comments %r>' % self.comment_id
 
+# Routes
 
 @app.route('/')
 def home():
-    return '<h1>Home Route</h1>'
+    robots = Robots.query.all()
+    return render_template('base.html', robots = robots)
 
 @app.route('/test/')
 def test():
