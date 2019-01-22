@@ -20,6 +20,7 @@ Key notes:
 - thread_id
 - thread_name
 - thread_content
+- thread_stars
 - thread_tags
 - thread_date
 
@@ -28,6 +29,8 @@ Key notes:
 - comment_id
 - comment_content
 - comment_date
+- comment_thumbs_down
+- comment_thumbs_up
 
 
 # Before you get started
@@ -56,6 +59,7 @@ pip install pandas flask flask-sqlalchemy
 
 # Tests
 - Tested function to return robot text for threads and comments using this [generator](http://carterschieffer.com/hello-robot)
+- Generated dummy data for `robots`, `threads` and `comments` tables to `forum-data` subdirectory.
 
 # Contributors
 - Daniel Corcoran
