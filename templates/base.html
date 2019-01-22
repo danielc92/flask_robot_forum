@@ -3,18 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Robot Forum</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon_io/favicon.ico')}}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
-  <body>
+  <body class = "has-background-light">
 
-  	<nav class="navbar container" role="navigation" aria-label="main navigation">
+  	<nav class="navbar has-background-white
+  	" style= "margin-bottom:2rem;"role="navigation" aria-label="main navigation">
+  	<div class="container">
   <div class="navbar-brand">
     <a class="navbar-item" href="https://bulma.io">
-      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      <img src="{{ url_for('static', filename='logo-via-logohub (1).png')}}"  height="55">
     </a>
-
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -28,7 +30,10 @@
         Home
       </a>
       <a class="navbar-item">
-        Documentation
+        Robots
+      </a>
+      <a class="navbar-item">
+        Threads
       </a>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
@@ -44,15 +49,14 @@
           <a class="navbar-item">
             Contact
           </a>
-          <hr class="navbar-divider">
-          <a class="navbar-item">
-            Report an issue
-          </a>
         </div>
       </div>
     </div>
   </div>
+  </div>
 </nav>
+
+
 <div class="container">
 <section class="columns">
   <section class="column is-7">
@@ -61,7 +65,7 @@
   </section>
 
 	  <section class = "column is-5">  	
-		<div class="notification is-light">
+		<div class="notification has-background-white">
 			<p class="subtitle has-text-weight-semibold has-text-centered">Most starred threads</p>
 			<ul class = "menu-list">
 				{% for t in side_data['starred-threads'] %}
@@ -71,7 +75,7 @@
 			</ul>
 		</div>
 
-		<div class="notification is-light">
+		<div class="notification has-background-white">
 			<p class="subtitle has-text-weight-semibold has-text-centered">Our newest members</p>
 			<ul class = "menu-list">
 				{% for t in side_data['new-members'] %}
@@ -87,12 +91,12 @@
 			</ul>
 		</div>
 
-		<div class="notification is-light">
+		<div class="notification has-background-white">
 			<p class="subtitle has-text-weight-semibold has-text-centered">Latest Comments</p>
 			<ul class = "menu-list">
 				{% for t in side_data['latest-comments'] %}
 					<li>
-						<div class="notification">
+						<div class="notification has-background-white">
 						<p>{{ t.comment_content|safe }}</p>
 						<p class = "has-text-primary">Posted on: {{ t.comment_date }}</p></div>
 					</li>
