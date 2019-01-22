@@ -56,51 +56,67 @@
             </div>
         </div>
     </nav>
+
+    {# HERO BANNER #}
     <section class="hero is-dark is-medium" style="margin-bottom:2rem;">
         <div class="hero-body container">
             <p class="title is-size-2">Robot Forum</p>
             <p class="subtitle">A place for robots. Made by robots.</p>
         </div>
     </section>
+
+    {# MAIN SECTION #}
     <div class="container">
         <section class="columns">
-            <section class="column is-7">
+            {# LEFT PANEL #}
+            <section class="column is-8">
                 {% block content %}
                 {% endblock content %}
             </section>
-            <section class="column is-5">
+
+            {# RIGHT PANEL #}
+
+            <section class="column is-4">
                 <div class="notification has-background-white">
-                    <p class="subtitle has-text-weight-semibold has-text-centered">Our newest members</p>
+                    <p class="has-text-weight-semibold is-size-4">Our newest members</p>
                     <ul class="menu-list">
                         {% for t in side_data['new-members'] %}
                         <li>
-                            <div class="columns">
-                                <div class="column is-3"><img style="height: 50px; width:50px;" src="{{ t.robot_avatar }}"></div>
+                                <div class="columns">
+                                    <div class="column is-3"><img style="height: 60px; width:60px;" src="{{ t.robot_avatar }}"></div>
                                     <div class="column is-5 has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</div>
                                     <div class="column is-4 small has-text-primary">Joined on: {{ t.robot_joined}}</div>
                                 </div>
+                       
                         </li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div class="notification has-background-white">
-                    <p class="subtitle has-text-weight-semibold has-text-centered">Most starred threads</p>
+                    <p class="has-text-weight-semibold is-size-4">Most starred threads</p>
                     <ul class="menu-list">
                         {% for t in side_data['starred-threads'] %}
                         <li>
-                            <p class="has-text-info has-text-weight-semibold is-size-6">{{ t.thread_name}} ({{ t.thread_stars|int }} Stars)</p>
+                            <div class="notification has-background-white">
+                                <span class="has-text-link">{{ t.thread_name}}</span>
+                                <i class="fas fa-star has-text-warning"></i><span>{{ t.thread_stars|int }}</span>
+                                <p class = "has-text-grey-light">posted: {{ t.thread_date }}</p>
+                            </div>
                         </li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div class="notification has-background-white">
-                    <p class="subtitle has-text-weight-semibold has-text-centered">Latest Comments</p>
+                    <p class="has-text-weight-semibold is-size-4">Latest Comments</p>
+                    
                     <ul class="menu-list">
                         {% for t in side_data['latest-comments'] %}
                         <li>
                             <div class="notification has-background-white">
-                                <p>{{ t.comment_content|safe }}</p>
-                                <p class="has-text-primary">Posted on: {{ t.comment_date }}</p>
+                                <p>{{ t.comment_content | replace('<br>','') }}</p><br>
+                                <span class="has-text-grey-light">posted: {{ t.comment_date }}</span>
+                                <i class="far fa-thumbs-up has-text-success"></i><span class="small">{{ t.comment_thumbs_up |int }}</span>
+                                <i class="far fa-thumbs-down has-text-danger"></i><span class="small">{{ t.comment_thumbs_down |int }}</span>
                             </div>
                         </li>
                         {% endfor %}
