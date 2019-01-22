@@ -2,6 +2,7 @@
 from flask import Flask,render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
+from sqlalchemy import desc
 
 app = Flask(__name__, static_folder='static')
 app.debug = True
@@ -61,8 +62,13 @@ class C(db.Model):
 
 @app.route('/')
 def home():
-    robots = R.query.all()
-    return render_template('base.html', robots = robots)
+    limit =10
+    most_starred_threads = T.query.order_by(desc(T.thread_stars)).limit(limit)
+    new_members = R.query.order_by(desc(R.robot_joined)).limit(limit)
+    latest_comments = C.query.order_by(desc(C.comment_date)).limit(limit)
+    return render_template('base.html', side_data = {'starred-threads': most_starred_threads,
+                                                     'new-members': new_members, 
+                                                     'latest-comments': latest_comments})
 
 @app.route('/test-query/')
 def test():
@@ -80,3 +86,4 @@ def testjoin():
     for q in query:
         print(q.robot_name)
     return '<h1>Test Join Route</h1>'
+

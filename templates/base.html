@@ -55,22 +55,50 @@
 </nav>
 <div class="container">
 <section class="columns">
-  <section class="column is-9">
+  <section class="column is-7">
 	{% block content %}
 	{% endblock content %}
   </section>
 
-	  <section class = "column is-3">  	
+	  <section class = "column is-5">  	
 		<div class="notification is-light">
-			<p class="has-text-weight-bold">Most starred threads</p>
+			<p class="subtitle has-text-weight-semibold has-text-centered">Most starred threads</p>
+			<ul class = "menu-list">
+				{% for t in side_data['starred-threads'] %}
+					<li><p class= "has-text-info has-text-weight-semibold is-size-6">{{ t.thread_name}} ({{ t.thread_stars|int }} Stars)</p></li>
+				{% endfor %}
+
+			</ul>
 		</div>
 
 		<div class="notification is-light">
-			<p class="has-text-weight-bold">Our newest members</p>
+			<p class="subtitle has-text-weight-semibold has-text-centered">Our newest members</p>
+			<ul class = "menu-list">
+				{% for t in side_data['new-members'] %}
+					<li>
+						<div class="columns">
+							<div class="column is-3"><img style="height: 50px; width:50px;" src="{{ t.robot_avatar }}"></div>
+							<div class="column is-5 has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</div>
+							<div class="column is-4 small has-text-primary">Joined on: {{ t.robot_joined}}</div>
+						</div>
+					</li>
+				{% endfor %}
+
+			</ul>
 		</div>
 
 		<div class="notification is-light">
-			<p class="has-text-weight-bold">Most starred threads</p>
+			<p class="subtitle has-text-weight-semibold has-text-centered">Latest Comments</p>
+			<ul class = "menu-list">
+				{% for t in side_data['latest-comments'] %}
+					<li>
+						<div class="notification">
+						<p>{{ t.comment_content|safe }}</p>
+						<p class = "has-text-primary">Posted on: {{ t.comment_date }}</p></div>
+					</li>
+				{% endfor %}
+			</ul>
+
 		</div>
 
 	  </section>
