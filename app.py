@@ -15,7 +15,7 @@ db = SQLAlchemy(app)
 
 # Database Models
 
-class Robots(db.Model):
+class R(db.Model):
     """Maps to robots table"""
     __tablename__ = 'robots'
 
@@ -28,12 +28,12 @@ class Robots(db.Model):
     def __repr__(self):
         return '<robots %r>' % self.robot_id
 
-class Threads(db.Model):
+class T(db.Model):
     """Maps to threads table"""
     __tablename__ = 'threads'
 
     thread_id = db.Column(db.Float, primary_key=True)
-    thread_robot_id = db.Column(db.Float)
+    thread_robot_id = db.Column(db.Float, db.ForeignKey('robots.robot_id'))
     thread_name = db.Column(db.Text)
     thread_tags = db.Column(db.Text)
     thread_content = db.Column(db.Text)
@@ -43,12 +43,12 @@ class Threads(db.Model):
     def __repr__(self):
         return '<threads %r>' % self.thread_id
 
-class Comments(db.Model):
+class C(db.Model):
     """Maps to comments table"""
     __tablename__ = 'comments'
 
     comment_id = db.Column(db.Float, primary_key=True)
-    comment_thread_id = db.Column(db.Float)
+    comment_thread_id = db.Column(db.Float, db.ForeignKey('threads.thread_id'))
     comment_content = db.Column(db.Text)
     comment_date = db.Column(db.Text)
     comment_thumbs_up = db.Column(db.Float)
@@ -61,15 +61,22 @@ class Comments(db.Model):
 
 @app.route('/')
 def home():
-    robots = Robots.query.all()
+    robots = R.query.all()
     return render_template('base.html', robots = robots)
 
-@app.route('/test/')
+@app.route('/test-query/')
 def test():
-    robots = Robots.query.all()
-    threads = Threads.query.all()
-    comments = Comments.query.all()
+    robots = R.query.all()
+    threads = T.query.all()
+    comments = C.query.all()
     print(robots)
     print(threads)
     print(comments)
     return '<h1>Test Route</h1>'
+
+@app.route('/test-join/')
+def testjoin():
+    query = C.query.join(R, R.robot_id == T.thread_robot_id).add_columns(R.robot_name).order_by(C.comment_id).limit(10)
+    for q in query:
+        print(q.robot_name)
+    return '<h1>Test Join Route</h1>'
