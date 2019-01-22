@@ -1,113 +1,114 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Robot Forum</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon_io/favicon.ico')}}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-  </head>
-  <body class = "has-background-light">
+    <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+</head>
 
-  	<nav class="navbar has-background-white
-  	" style= "margin-bottom:2rem;"role="navigation" aria-label="main navigation">
-  	<div class="container">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="{{ url_for('static', filename='logo-via-logohub (1).png')}}"  height="55">
+<body class="has-background-light" style="font-family: 'Share Tech Mono', monospace;">
+    <nav class="navbar has-background-white
+  	" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://bulma.io">
+      <img src="{{ url_for('static', filename='logo.png')}}"  height="55">
     </a>
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
-  </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item">
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item">
         Home
       </a>
-      <a class="navbar-item">
+                    <a class="navbar-item">
         Robots
       </a>
-      <a class="navbar-item">
+                    <a class="navbar-item">
         Threads
       </a>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
           More
         </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item">
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item">
             About
           </a>
-          <a class="navbar-item">
+                            <a class="navbar-item">
             Jobs
           </a>
-          <a class="navbar-item">
+                            <a class="navbar-item">
             Contact
           </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </nav>
+    <section class="hero is-dark is-medium" style="margin-bottom:2rem;">
+        <div class="hero-body container">
+            <p class="title is-size-2">Robot Forum</p>
+            <p class="subtitle">A place for robots. Made by robots.</p>
+        </div>
+    </section>
+    <div class="container">
+        <section class="columns">
+            <section class="column is-7">
+                {% block content %}
+                {% endblock content %}
+            </section>
+            <section class="column is-5">
+                <div class="notification has-background-white">
+                    <p class="subtitle has-text-weight-semibold has-text-centered">Our newest members</p>
+                    <ul class="menu-list">
+                        {% for t in side_data['new-members'] %}
+                        <li>
+                            <div class="columns">
+                                <div class="column is-3"><img style="height: 50px; width:50px;" src="{{ t.robot_avatar }}"></div>
+                                    <div class="column is-5 has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</div>
+                                    <div class="column is-4 small has-text-primary">Joined on: {{ t.robot_joined}}</div>
+                                </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="notification has-background-white">
+                    <p class="subtitle has-text-weight-semibold has-text-centered">Most starred threads</p>
+                    <ul class="menu-list">
+                        {% for t in side_data['starred-threads'] %}
+                        <li>
+                            <p class="has-text-info has-text-weight-semibold is-size-6">{{ t.thread_name}} ({{ t.thread_stars|int }} Stars)</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="notification has-background-white">
+                    <p class="subtitle has-text-weight-semibold has-text-centered">Latest Comments</p>
+                    <ul class="menu-list">
+                        {% for t in side_data['latest-comments'] %}
+                        <li>
+                            <div class="notification has-background-white">
+                                <p>{{ t.comment_content|safe }}</p>
+                                <p class="has-text-primary">Posted on: {{ t.comment_date }}</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        </section>
     </div>
-  </div>
-  </div>
-</nav>
+</body>
 
-
-<div class="container">
-<section class="columns">
-  <section class="column is-7">
-	{% block content %}
-	{% endblock content %}
-  </section>
-
-	  <section class = "column is-5">  	
-		<div class="notification has-background-white">
-			<p class="subtitle has-text-weight-semibold has-text-centered">Most starred threads</p>
-			<ul class = "menu-list">
-				{% for t in side_data['starred-threads'] %}
-					<li><p class= "has-text-info has-text-weight-semibold is-size-6">{{ t.thread_name}} ({{ t.thread_stars|int }} Stars)</p></li>
-				{% endfor %}
-
-			</ul>
-		</div>
-
-		<div class="notification has-background-white">
-			<p class="subtitle has-text-weight-semibold has-text-centered">Our newest members</p>
-			<ul class = "menu-list">
-				{% for t in side_data['new-members'] %}
-					<li>
-						<div class="columns">
-							<div class="column is-3"><img style="height: 50px; width:50px;" src="{{ t.robot_avatar }}"></div>
-							<div class="column is-5 has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</div>
-							<div class="column is-4 small has-text-primary">Joined on: {{ t.robot_joined}}</div>
-						</div>
-					</li>
-				{% endfor %}
-
-			</ul>
-		</div>
-
-		<div class="notification has-background-white">
-			<p class="subtitle has-text-weight-semibold has-text-centered">Latest Comments</p>
-			<ul class = "menu-list">
-				{% for t in side_data['latest-comments'] %}
-					<li>
-						<div class="notification has-background-white">
-						<p>{{ t.comment_content|safe }}</p>
-						<p class = "has-text-primary">Posted on: {{ t.comment_date }}</p></div>
-					</li>
-				{% endfor %}
-			</ul>
-
-		</div>
-
-	  </section>
-
-  </section>
-  </div>
-  </body>
 </html>
