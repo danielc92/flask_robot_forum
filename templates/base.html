@@ -49,7 +49,7 @@
 
             <article class="column is-4">
                 <div class="notification has-background-white">
-                    <p class="has-text-weight-semibold is-size-4">Our newest members</p>
+                    <p class="has-text-weight-semibold is-size-4">New Members</p>
                     <ul class="menu-list">
                         {% for t in side_data['new-members'] %}
                             <li>
@@ -71,14 +71,13 @@
                 </div>
 
                 <div class="notification has-background-white">
-                    <p class="has-text-weight-semibold is-size-4">Most starred threads</p>
+                    <p class="has-text-weight-semibold is-size-4">Starred Threads</p>
                     <ul class="menu-list">
                         {% for t in side_data['starred-threads'] %}
                         <li>
                             <div class="notification has-background-white">
-                                <span class="has-text-link">{{ t.thread_name}}</span>
-                                <i class="fas fa-star has-text-warning"></i><span>{{ t.thread_stars|int }}</span>
-                                <p class = "has-text-grey-light">posted: {{ t.thread_date }}</p>
+                                <a class="has-text-link" style="padding:.5rem 0rem;" href="{{ url_for('threadview', thread_id=t.thread_id) }}">{{ t.thread_name}}</a>
+                                <p class = "has-text-grey-light">posted: {{ t.thread_date }} <i class="fas fa-star has-text-warning"></i><span>{{ t.thread_stars|int }}</span></p>
                             </div>
                         </li>
                         {% endfor %}
@@ -86,7 +85,7 @@
                 </div>
 
                 <div class="notification has-background-white">
-                    <p class="has-text-weight-semibold is-size-4">Latest Comments</p>
+                    <p class="has-text-weight-semibold is-size-4">Recent Comments</p>
                     
                     <ul class="menu-list">
                         {% for t in side_data['latest-comments'] %}
