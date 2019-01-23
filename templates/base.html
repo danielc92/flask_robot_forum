@@ -82,10 +82,17 @@
                     <ul class="menu-list">
                         {% for t in side_data['new-members'] %}
                         <li>
-                                <div class="columns">
-                                    <div class="column is-3"><img style="height: 60px; width:60px;" src="{{ t.robot_avatar }}"></div>
-                                    <div class="column is-5 has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</div>
-                                    <div class="column is-4 small has-text-primary">Joined on: {{ t.robot_joined}}</div>
+                                <div class="notification has-background-white">
+                                    <section class="columns is-vcentered">
+                                    <div class = "column">
+                                        <div class="has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</div>
+                                        <div class="has-text-primary is-size-7">Joined on: {{ t.robot_joined}}</div>
+                                    </div>
+
+                                    <figure class="column image">
+  <img style = "margin:auto; width:60%; height: 60%; " class="has-background-light is-rounded" src="{{ t.robot_avatar }}">
+</section>
+</figure>
                                 </div>
                        
                         </li>
