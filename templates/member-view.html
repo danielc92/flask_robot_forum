@@ -2,6 +2,18 @@
 
 {% block content %}
 <section class="notification has-background-white">
-    <p class="title">Member Content</p>
+    <div class="columns is-vcentered">
+        <div class="column">
+                <p class="title">{{ member.robot_name }}</p>
+                <p>member id: <span class ="has-text-primary">{{ member.robot_id | int}}</span></p>
+                <p>age: <span class ="has-text-primary">{{ member.robot_age | int}}</span></p>
+                <p>join date:<span class ="has-text-primary">{{ member.robot_joined}}</span></p>
+        </div>
+        <div class="column">
+                <img src="{{ member.robot_avatar }}">
+        </div>
+    </div>
+    
+    
 </section>
 {% endblock content %}

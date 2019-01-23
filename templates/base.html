@@ -57,7 +57,7 @@
                                 <div class="notification has-background-white">
                                     <section class="columns is-vcentered">
                                         <div class = "column">
-                                            <div class="has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</div>
+                                            <a style="padding:.5rem 0rem;" href="{{ url_for('memberview',member_id=t.robot_id) }}" class="has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</a>
                                             <div class="has-text-primary is-size-7">Joined on: {{ t.robot_joined}}</div>
                                         </div>
 
