@@ -1,5 +1,8 @@
 
-from flask import Flask, render_template, url_for
+from flask import Flask
+from flask import request
+from flask import url_for
+from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 from sqlalchemy import desc
@@ -89,6 +92,33 @@ def home():
 def members():
     members = R.query.all()
     return render_template('members.html', members=members, side_data=fetch_side_data())
+
+@app.route('/threads/')
+def threads():
+    threads = T.query.join(R, R.robot_id == T.thread_robot_id).add_columns(R.robot_name, 
+        T.thread_name, 
+        T.thread_stars,
+        T.thread_id,
+        T.thread_date,
+        T.thread_tags,
+        T.thread_content).all()
+    return render_template('threads.html', threads=threads, side_data=fetch_side_data())
+
+@app.route('/threads/view/')
+def threadview():
+
+    thread_id = request.args.get('thread_id')
+
+    thread = T.query.join(R, R.robot_id == T.thread_robot_id).add_columns(R.robot_name,
+        R.robot_avatar, 
+        T.thread_name, 
+        T.thread_stars,
+        T.thread_id,
+        T.thread_date,
+        T.thread_tags,
+        T.thread_content).filter(T.thread_id==thread_id).first()
+    print(thread)
+    return render_template('thread-view.html', thread=thread, side_data=fetch_side_data())
 
 @app.route('/test-query/')
 def test():

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="notification has-background-white">
+    <div class = "columns is-vcentered">
+        <div class = "image column is-3"><img class="is-rounded  has-background-warning" style="width:100px; height: 100px; margin:auto;" src="{{ thread.robot_avatar }}"></div>
+
+        <div class="column is-9">
+            <p class="has-text-weight-semibold is-size-4">{{ thread.thread_name }}</p>
+            <span class = "has-text-info">Author: <strong>{{ thread.robot_name }}</strong></span>
+             <span class = "has-text-primary">Posted: <strong>{{thread.thread_date}}</strong></span>
+    <i class = "fas fa-star has-text-warning"></i><span>{{ thread.thread_stars|int }}</span>
+        </div>
+        
+    
+    </div>
+    
+
+   
+    <p style = "margin: .5rem 0;">{{ thread.thread_content | safe }}</p>
+    
+</section>
+{% endblock content %}
