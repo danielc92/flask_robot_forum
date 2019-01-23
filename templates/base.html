@@ -10,9 +10,18 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon_io/favicon.ico')}}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+    <style type="text/css">
+        a {
+            text-decoration:none !important;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+        }
+    </style>
 </head>
 
-<body class="has-background-light" style="font-family: 'Share Tech Mono', monospace;">
+<body class="has-background-light">
     
     {#---- NAVBAR ----#}
     {% include 'navbar.html' %}
