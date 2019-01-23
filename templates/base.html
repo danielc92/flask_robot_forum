@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon_io/favicon.ico')}}">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+
     <style type="text/css">
         a {
             text-decoration:none !important;
@@ -103,5 +104,16 @@
             </article>
         </section>
     </div>
+
+    <script type="text/javascript">
+        var dropdown = document.querySelector('.navbar-burger');
+        var menu = document.querySelector('.navbar-menu')
+        dropdown.addEventListener('click', function(event) {
+          event.stopPropagation();
+          menu.classList.toggle('is-active');
+        });
+    </script>
+
+    
 </body>
 </html>
