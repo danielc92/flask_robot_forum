@@ -58,17 +58,33 @@ class C(db.Model):
     def __repr__(self):
         return '<comments %r>' % self.comment_id
 
+
+# Helper Functions
+
+def fetch_side_data():
+    """Fetch right hand side bar data from database and return dictionary"""
+    limit=10
+
+    starred_threads = T.query.order_by(desc(T.thread_stars)).limit(limit)
+    new_members = R.query.order_by(desc(R.robot_joined)).limit(limit)
+    latest_comments = C.query.order_by(desc(C.comment_date)).limit(limit)
+
+    sidebar_data = {'starred-threads': starred_threads,
+                    'new-members': new_members,
+                    'latest-comments': latest_comments}
+
+    return sidebar_data
+
 # Routes
 
 @app.route('/')
 def home():
-    limit =10
-    most_starred_threads = T.query.order_by(desc(T.thread_stars)).limit(limit)
-    new_members = R.query.order_by(desc(R.robot_joined)).limit(limit)
-    latest_comments = C.query.order_by(desc(C.comment_date)).limit(limit)
-    return render_template('base.html', side_data = {'starred-threads': most_starred_threads,
-                                                     'new-members': new_members, 
-                                                     'latest-comments': latest_comments})
+    return render_template('home.html', side_data=fetch_side_data())
+
+@app.route('/members/')
+def members():
+    members = R.query.all()
+    return render_template('members.html', members=members, side_data=fetch_side_data())
 
 @app.route('/test-query/')
 def test():
@@ -86,4 +102,3 @@ def testjoin():
     for q in query:
         print(q.robot_name)
     return '<h1>Test Join Route</h1>'
-

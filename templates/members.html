@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="notification has-background-white">
+	<span class="has-text-weight-semibold is-size-4">Members</span>
+	{#---- ITERATE THROUGH MEMBERS QUERY RESULT SET ----#}
+	{% for m in members %}
+		<div class="notification is-dark">
+			<section class="columns is-vcentered">
+				<div class="column">
+					<p>member id: <span class = "has-text-info">{{ m.robot_id|int }}<span></p>
+					<p>name: <span class = "has-text-info">{{ m.robot_name }}<span></p>
+					<p>age: <span class = "has-text-info">{{ m.robot_age|int }}<span></p>
+					<p>joined on: <span class = "has-text-info">{{ m.robot_joined }}<span></p>
+				</div>
+				<div class="column">
+					<figure class="image">
+					<img style = "margin:auto; width:150px; height: 150px; " class="has-background-light is-rounded" src="{{ m.robot_avatar }}">
+	            	</figure>
+				</div>
+			</section>
+			
+
+		</div>
+	{% endfor %}
+</section>
+{% endblock content %}
