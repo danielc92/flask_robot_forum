@@ -1,5 +1,5 @@
 
-from flask import Flask,render_template, url_for
+from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
 from sqlalchemy import desc
@@ -16,7 +16,7 @@ db = SQLAlchemy(app)
 
 # Database Models
 
-class R(db.Model):
+class Robots(db.Model):
     """Maps to robots table"""
     __tablename__ = 'robots'
 
@@ -29,7 +29,7 @@ class R(db.Model):
     def __repr__(self):
         return '<robots %r>' % self.robot_id
 
-class T(db.Model):
+class Threads(db.Model):
     """Maps to threads table"""
     __tablename__ = 'threads'
 
@@ -44,7 +44,7 @@ class T(db.Model):
     def __repr__(self):
         return '<threads %r>' % self.thread_id
 
-class C(db.Model):
+class Comments(db.Model):
     """Maps to comments table"""
     __tablename__ = 'comments'
 
@@ -58,6 +58,10 @@ class C(db.Model):
     def __repr__(self):
         return '<comments %r>' % self.comment_id
 
+# Create alias for ORM classes
+C = Comments
+T = Threads
+R = Robots
 
 # Helper Functions
 
