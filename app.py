@@ -117,9 +117,17 @@ def threadview():
         T.thread_date,
         T.thread_tags,
         T.thread_content).filter(T.thread_id==thread_id).first()
-    print(thread)
     return render_template('thread-view.html', thread=thread, side_data=fetch_side_data())
 
+@app.route('/members/view/')
+def memberview():
+
+    member_id = request.args.get('member_id')
+
+    member = R.query.filter(R.robot_id == member_id).first()
+    return render_template('member-view.html', member=member, side_data=fetch_side_data())
+
+# Test Routes - for checking query results
 @app.route('/test-query/')
 def test():
     robots = R.query.all()
