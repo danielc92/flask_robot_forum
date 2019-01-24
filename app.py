@@ -6,6 +6,7 @@ from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 from sqlalchemy import desc
+#from sqlalchemy.sql import func
 
 app = Flask(__name__, static_folder='static')
 app.debug = True
@@ -75,6 +76,29 @@ C = Comments
 T = Threads
 R = Robots
 
+# Create metadata
+T_columns = [T.thread_content,
+             T.thread_date,
+             T.thread_stars,
+             T.thread_id,
+             T.thread_tags,
+             T.thread_name,
+             T.thread_robot_id]
+
+R_columns = [R.robot_name,
+             R.robot_age,
+             R.robot_avatar,
+             R.robot_joined,
+             R.robot_id]
+
+C_columns = [C.comment_content,
+             C.comment_date,
+             C.comment_id,
+             C.comment_thread_id,
+             C.comment_thumbs_down,
+             C.comment_thumbs_up]
+
+
 # Helper Functions
 
 
@@ -110,13 +134,7 @@ def members():
 def threads():
     """Route to view multiple threads."""
     threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
-                     .add_columns(R.robot_name,
-                                  T.thread_name,
-                                  T.thread_stars,
-                                  T.thread_id,
-                                  T.thread_date,
-                                  T.thread_tags,
-                                  T.thread_content).all()
+                     .add_columns(*R_columns + T_columns).all()
     return render_template('threads.html', threads=threads, side_data=fetch_side_data())
 
 
@@ -126,14 +144,7 @@ def threadview():
     thread_id = request.args.get('thread_id')
 
     thread = T.query.join(R, R.robot_id == T.thread_robot_id)\
-                    .add_columns(R.robot_name,
-                                 R.robot_avatar,
-                                 T.thread_name,
-                                 T.thread_stars,
-                                 T.thread_id,
-                                 T.thread_date,
-                                 T.thread_tags,
-                                 T.thread_content)\
+                    .add_columns(*R_columns + T_columns)\
                     .filter(T.thread_id == thread_id).first()
     return render_template('thread-view.html', thread=thread, side_data=fetch_side_data())
 
@@ -143,8 +154,21 @@ def memberview():
     """Route to view a single member."""
     member_id = request.args.get('member_id')
 
-    member = R.query.filter(R.robot_id == member_id).first()
-    return render_template('member-view.html', member=member, side_data=fetch_side_data())
+    has_threads = True
+    member_data = T.query.join(R, R.robot_id == T.thread_robot_id)\
+                         .add_columns(*R_columns + T_columns)\
+                         .filter(R.robot_id == member_id).all()
+
+    if not member_data:
+        print("MEMBER DATA UPDATED TO ALL ROBOTS")
+        member_data = R.query.filter(R.robot_id == member_id).limit(1)
+        has_threads = None
+
+
+    return render_template('member-view.html',
+                           has_threads=has_threads,
+                           member_data=member_data,
+                           side_data=fetch_side_data())
 
 # Test Routes - for checking query results
 
@@ -155,8 +179,8 @@ def test():
     robots = R.query.all()
     threads = T.query.all()
     comments = C.query.all()
-    print(robots)
     print(threads)
+    print(robots)
     print(comments)
     return '<h1>Test Route</h1>'
 

@@ -4,13 +4,30 @@
 <section class="notification has-background-white">
     <div class="columns is-vcentered">
         <div class="column">
-                <p class="title">{{ member.robot_name }}</p>
-                <p>member id: <span class ="has-text-primary">{{ member.robot_id | int}}</span></p>
-                <p>age: <span class ="has-text-primary">{{ member.robot_age | int}}</span></p>
-                <p>join date:<span class ="has-text-primary">{{ member.robot_joined}}</span></p>
+                <p class="title has-text-info">{{ member_data[0].robot_name }}</p>
+                <p>member id: <span class ="has-text-primary">{{ member_data[0].robot_id | int}}</span></p>
+                <p>age: <span class ="has-text-primary">{{ member_data[0].robot_age | int}}</span></p>
+                <p>joined on:<span class ="has-text-primary">{{ member_data[0].robot_joined}}</span></p>
+
+            {# CALCULATE TOTAL THREADS AND TOTAL STARS #}
+            {% if has_threads %}
+                {% set totals = {'threads':0, 'stars':0} %}
+                {% for record in member_data %}
+                    {% if totals.update({'threads':totals.threads+1, 'stars':totals.stars+record.thread_stars} )%}{% endif %}
+                {% endfor %}
+
+                <p>total threads: <span class ="has-text-primary">{{ totals.threads }}</span></p>
+                <p>total stars: <span class ="has-text-primary">{{ totals.stars|int }}</span></p>
+
+            {% else %}
+                <p>total threads: <span class ="has-text-primary">0</span></p>
+                <p>total stars: <span class ="has-text-primary">0</span></p>
+
+            {% endif %}
+                
         </div>
         <div class="column">
-                <img src="{{ member.robot_avatar }}">
+                <img src="{{ member_data[0].robot_avatar }}">
         </div>
     </div>
     
