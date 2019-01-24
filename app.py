@@ -104,7 +104,7 @@ C_columns = [C.comment_content,
 
 def fetch_side_data():
     """Fetch right hand side bar data from database and return dictionary."""
-    limit = 10
+    limit = 5
 
     starred_threads = T.query.order_by(desc(T.thread_stars)).limit(limit)
     new_members = R.query.order_by(desc(R.robot_joined)).limit(limit)
