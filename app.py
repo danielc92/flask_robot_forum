@@ -123,6 +123,24 @@ def home():
     return render_template('home.html', side_data=fetch_side_data())
 
 
+@app.route('/contact/')
+def contact():
+    """Route to view news, the contact page."""
+    return render_template('contact.html', side_data=fetch_side_data())
+
+
+@app.route('/sources/')
+def sources():
+    """Route to view news, the sources page."""
+    return render_template('sources.html', side_data=fetch_side_data())
+
+
+@app.route('/about/')
+def about():
+    """Route to view news, the about page."""
+    return render_template('about.html', side_data=fetch_side_data())
+
+
 @app.route('/members/')
 def members():
     """Route to view a multiple members."""
