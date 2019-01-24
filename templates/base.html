@@ -58,7 +58,7 @@
                                     <section class="columns is-vcentered">
                                         <div class = "column">
                                             <a style="padding:.5rem 0rem;" href="{{ url_for('memberview',member_id=t.robot_id) }}" class="has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</a>
-                                            <div class="has-text-primary is-size-7">Joined on: {{ t.robot_joined}}</div>
+                                            <p class="has-text-grey-light is-size-7">Joined: {{ t.robot_joined}}</p>
                                         </div>
 
                                         <figure class="column image">
@@ -77,8 +77,8 @@
                         {% for t in side_data['starred-threads'] %}
                         <li>
                             <div class="notification has-background-white">
-                                <a class="has-text-link" style="padding:.5rem 0rem;" href="{{ url_for('threadview', thread_id=t.thread_id) }}">{{ t.thread_name}}</a>
-                                <p class = "has-text-grey-light">posted: {{ t.thread_date }} <i class="fas fa-star has-text-warning"></i><span>{{ t.thread_stars|int }}</span></p>
+                                <a class="has-text-info has-text-weight-semibold is-size-5" style="padding:.5rem 0rem;" href="{{ url_for('threadview', thread_id=t.thread_id) }}">{{ t.thread_name}}</a>
+                                <p class = "has-text-grey-light is-size-7">posted: {{ t.thread_date }} <i class="fas fa-star has-text-warning"></i><span>{{ t.thread_stars|int }}</span></p>
                             </div>
                         </li>
                         {% endfor %}
@@ -92,10 +92,12 @@
                         {% for t in side_data['latest-comments'] %}
                         <li>
                             <div class="notification has-background-white">
-                                <p>{{ t.comment_content | replace('<br>','') }}</p><br>
-                                <span class="has-text-grey-light">posted: {{ t.comment_date }}</span>
-                                <i class="far fa-thumbs-up has-text-success"></i><span class="small">{{ t.comment_thumbs_up |int }}</span>
-                                <i class="far fa-thumbs-down has-text-danger"></i><span class="small">{{ t.comment_thumbs_down |int }}</span>
+                                <p>{{ t.comment_content[:150] | replace('<br>','') }}...</p><br>
+                                <div class = "is-size-7">
+                                    <span class="has-text-grey-light">posted: {{ t.comment_date }}</span>
+                                    <i class="far fa-thumbs-up has-text-success "></i><span class="small">{{ t.comment_thumbs_up |int }}</span>
+                                    <i class="far fa-thumbs-down has-text-danger"></i><span class="small">{{ t.comment_thumbs_down |int }}</span>
+                                </div>
                             </div>
                         </li>
                         {% endfor %}
