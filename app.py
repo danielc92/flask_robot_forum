@@ -185,23 +185,49 @@ def members():
         if search:
             search_terms = return_search_terms(search)
             search_conditions = return_search_conditions(search_terms, 'Robots')
-            members = R.query.filter(and_(*search_conditions))\
+            members = R.query.filter(and_(*search_conditions)).order_by(R.robot_name)\
                              .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
         else:
-            members = R.query.paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
+            members = R.query.order_by(R.robot_name).paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
         
         return render_template('members.html', members=members, search=search, side_data=fetch_side_data())
 
 
-@app.route('/threads/')
+@app.route('/threads/', methods = ['POST', 'GET'])
 def threads():
     """Route to view multiple threads."""
-    page_number_string = request.args.get('page_number', '1')
-    page_number = float(page_number_string)
-    threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
-                     .add_columns(*R_columns + T_columns)\
-                     .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
-    return render_template('threads.html', threads=threads, side_data=fetch_side_data())
+    if request.method == "POST":
+        search = request.form['search']
+        return redirect(url_for('threads', search=search, page_number=1))
+    else:
+        search = request.args.get('search', None)
+        page_number_string = request.args.get('page_number', '1')
+        page_number = float(page_number_string)
+        
+        if search:
+            search_terms = return_search_terms(search)
+            search_conditions = return_search_conditions(search_terms, 'Threads')
+            threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
+                      .add_columns(*R_columns + T_columns)\
+                      .order_by(T.thread_name)\
+                      .filter(*search_conditions)\
+                      .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
+        else:
+            threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
+                             .add_columns(*R_columns + T_columns)\
+                             .order_by(T.thread_name)\
+                             .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
+        
+        return render_template('threads.html', threads=threads, search=search, side_data=fetch_side_data())
+
+
+
+    # page_number_string = request.args.get('page_number', '1')
+    # page_number = float(page_number_string)
+    # threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
+    #                  .add_columns(*R_columns + T_columns)\
+    #                  .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
+    # return render_template('threads.html', threads=threads, side_data=fetch_side_data())
 
 
 @app.route('/threads/view/')
