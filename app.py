@@ -1,11 +1,13 @@
 """Imports."""
 from flask import Flask
 from flask import request
+from flask import redirect
 from flask import url_for
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 from sqlalchemy import desc
+from sqlalchemy import and_
 #from sqlalchemy.sql import func
 
 app = Flask(__name__, static_folder='static')
@@ -101,6 +103,34 @@ C_columns = [C.comment_content,
 
 
 # Helper Functions
+def clean_search(raw_search):
+    """Return cleaned search item."""
+    if len(raw_search.strip()) > 0:
+        search = raw_search
+    else:
+        search = None
+
+    return search
+
+
+def return_search_terms(search_string):
+    """Return search terms as a list from a search string object."""
+    if search_string == '':
+        return [search_string]
+    else:
+        terms = search_string.split(' ')
+        terms_stripped = list(map(str.strip, terms))
+        search_list = [term for term in terms_stripped if term != '']
+        return search_list
+
+
+def return_search_conditions(search_list, table_name):
+    """Return list of search conditions using sqlalchemy."""
+    if table_name == 'Robots':
+        search_conditions = [R.robot_name.ilike('%{}%'.format(term)) for term in search_list]
+    elif table_name == 'Threads':   
+        search_conditions = [T.thread_name.ilike('%{}%'.format(term)) for term in search_list]
+    return search_conditions
 
 
 def fetch_side_data():
@@ -142,16 +172,25 @@ def about():
     return render_template('about.html', side_data=fetch_side_data())
 
 
-@app.route('/members/')
+@app.route('/members/', methods=['POST', 'GET'])
 def members():
     """Route to view a multiple members."""
     if request.method == "POST":
-        print("POST")
+        search = request.form['search']
+        return redirect(url_for('members', search=search, page_number=1))
     else:
+        search = request.args.get('search', None)
         page_number_string = request.args.get('page_number', '1')
         page_number = float(page_number_string)
-        members = R.query.paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
-        return render_template('members.html', members=members, side_data=fetch_side_data())
+        if search:
+            search_terms = return_search_terms(search)
+            search_conditions = return_search_conditions(search_terms, 'Robots')
+            members = R.query.filter(and_(*search_conditions))\
+                             .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
+        else:
+            members = R.query.paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
+        
+        return render_template('members.html', members=members, search=search, side_data=fetch_side_data())
 
 
 @app.route('/threads/')
