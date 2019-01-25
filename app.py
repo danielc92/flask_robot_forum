@@ -154,8 +154,11 @@ def members():
 @app.route('/threads/')
 def threads():
     """Route to view multiple threads."""
+    page_number_string = request.args.get('page_number', '1')
+    page_number = float(page_number_string)
     threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
-                     .add_columns(*R_columns + T_columns).all()
+                     .add_columns(*R_columns + T_columns)\
+                     .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
     return render_template('threads.html', threads=threads, side_data=fetch_side_data())
 
 

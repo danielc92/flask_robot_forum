@@ -2,20 +2,21 @@
 
 {% block content %}
 <section class="notification has-background-white">
-	<span class="has-text-weight-semibold is-size-4">Threads</span>
+	<p class="has-text-weight-semibold is-size-4" style = "margin-bottom: 1rem;">Threads</p>
 	{#---- ITERATE THROUGH THREADS QUERY RESULT SET ----#}
-	{% for t in threads %}
-		<div class="notification is-light">
+	{% for t in threads.items %}
+		<div class="notification is-dark">
 			<section class="columns is-vcentered">
 				<div class="column">
-					<p class = "has-text-weight-semibold is-size-4"><a href="{{ url_for('threadview', thread_id=t.thread_id) }}">{{ t.thread_name }}</a></p>
+					<p class = "has-text-weight-semibold has-text-info is-size-4"><a href="{{ url_for('threadview', thread_id=t.thread_id) }}">{{ t.thread_name }}</a></p>
 					<p style = "margin: .5rem 0;">{{ t.thread_content[:250] }}...</p>
-					<span class = "has-text-info">created by: {{ t.robot_name }}.</span>
-					<span class = "has-text-primary">posted: {{t.thread_date}}</span>
+					<span class = "has-text-grey-light is-size-7">posted: <strong>{{t.thread_date}}</strong></span>
+					<span class = "has-text-info is-size-7">created by: <strong>{{ t.robot_name }}.</strong></span>
+					<i class="fas fa-star has-text-warning"></i><span class = "has-text-warning is-size-7"> {{ t.thread_stars|int }}</span>
 					{% set tags = t.thread_tags.split(',') %}
-					<div class="tags">
+					<div class="tags" style = "margin-top: .8rem;">
 						{% for tag in tags %}
-							<span style = "padding:.25rem .4rem;" class = "tag small is-dark is-small">{{ tag }}</span>
+							<span style = "padding:.25rem .4rem;" class = "tag small is-link is-small">{{ tag }}</span>
 						{% endfor %}
 					</div>
 				</div>
@@ -24,5 +25,14 @@
 
 		</div>
 	{% endfor %}
+
+	{% if threads.has_prev %}
+		<a class = "has-text-info" href = "{{ url_for('threads', page_number = threads.prev_num) }} ">previous page</a>
+	{% endif %}
+	<a>page {{ threads.page | int }}</a>
+	{% if threads.has_next %}
+		<a class = "has-text-info"  href = "{{ url_for('threads', page_number = threads.next_num) }} ">next page</a>
+	{% endif %}
+
 </section>
 {% endblock content %}
