@@ -4,7 +4,7 @@
 <section class="notification has-background-white">
 	<span class="has-text-weight-semibold is-size-4">Members</span>
 	{#---- ITERATE THROUGH MEMBERS QUERY RESULT SET ----#}
-	{% for m in members %}
+	{% for m in members.items %}
 		<div class="notification is-dark">
 			<section class="columns is-vcentered">
 				<div class="column">
@@ -19,9 +19,14 @@
 	            	</figure>
 				</div>
 			</section>
-			
-
-		</div>
+			</div>
 	{% endfor %}
+	
+	{% if members.has_prev %}
+		<p>next</p>
+	{% endif %}
+	{% if members.has_next %}
+		<p>next</p>
+	{% endif %}
 </section>
 {% endblock content %}

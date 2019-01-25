@@ -11,6 +11,7 @@ from sqlalchemy import desc
 app = Flask(__name__, static_folder='static')
 app.debug = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PER_PAGE'] = 12
 current_directory = os.getcwd()
 database_path = '/notebooks/robot.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = \
@@ -144,7 +145,8 @@ def about():
 @app.route('/members/')
 def members():
     """Route to view a multiple members."""
-    members = R.query.all()
+    page_number = request.args.get('page_number', 1)
+    members = R.query.paginate(page=1, per_page=app.config['PER_PAGE'], error_out=True)
     return render_template('members.html', members=members, side_data=fetch_side_data())
 
 
