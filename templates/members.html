@@ -23,10 +23,11 @@
 	{% endfor %}
 	
 	{% if members.has_prev %}
-		<p>next</p>
+		<a class = "has-text-info" href = "{{ url_for('members', page_number = members.prev_num) }} ">previous page</a>
 	{% endif %}
+	<a>current page ({{ members.page }})</a>
 	{% if members.has_next %}
-		<p>next</p>
+		<a class = "has-text-info"  href = "{{ url_for('members', page_number = members.next_num) }} ">next page</a>
 	{% endif %}
 </section>
 {% endblock content %}

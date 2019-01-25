@@ -145,8 +145,9 @@ def about():
 @app.route('/members/')
 def members():
     """Route to view a multiple members."""
-    page_number = request.args.get('page_number', 1)
-    members = R.query.paginate(page=1, per_page=app.config['PER_PAGE'], error_out=True)
+    page_number_string = request.args.get('page_number', '1')
+    page_number = float(page_number_string)
+    members = R.query.paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
     return render_template('members.html', members=members, side_data=fetch_side_data())
 
 
