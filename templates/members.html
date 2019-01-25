@@ -1,33 +1,52 @@
 {% extends 'base.html' %}
 
+{% block search %}
+<section class= "notification has-background-white">
+    <p class="has-text-weight-semibold is-size-4" style="margin-bottom: 1rem;">Search</p>
+    <form method="post">
+        <div class="field has-addons">
+          <div class="control">
+            <input class="input" type="text" name="search" placeholder="Find a member...">
+          </div>
+          <div class="control">
+            <button class="button is-info" type="submit">
+              Go
+            </button>
+          </div>
+        </div>
+    </form>
+</section>
+{% endblock search%}
+
 {% block content %}
+
 <section class="notification has-background-white">
-	<p class="has-text-weight-semibold is-size-4" style="margin-bottom: 1rem;">Members</p>
-	{#---- ITERATE THROUGH MEMBERS QUERY RESULT SET ----#}
-	{% for m in members.items %}
-		<div class="notification is-dark">
-			<section class="columns is-vcentered">
-				<div class="column">
-					<p class="has-text-info has-text-weight-semibold is-size-5"><a href = "{{ url_for('memberview', member_id=m.robot_id) }}">{{ m.robot_name }}</a></p>
-					<p>member id: <span class = "has-text-info">{{ m.robot_id|int }}<span></p>
-					<p>age: <span class = "has-text-info">{{ m.robot_age|int }}<span></p>
-					<p>joined on: <span class = "has-text-info">{{ m.robot_joined }}<span></p>
-				</div>
-				<div class="column">
-					<figure class="image">
-					<img style = "margin:auto; width:150px; height: 150px; " class="has-background-light is-rounded" src="{{ m.robot_avatar }}">
-	            	</figure>
-				</div>
-			</section>
-			</div>
-	{% endfor %}
-	
-	{% if members.has_prev %}
-		<a class = "has-text-info" href = "{{ url_for('members', page_number = members.prev_num) }} ">previous page</a>
-	{% endif %}
-	<a>current page ({{ members.page }})</a>
-	{% if members.has_next %}
-		<a class = "has-text-info"  href = "{{ url_for('members', page_number = members.next_num) }} ">next page</a>
-	{% endif %}
+    <p class="has-text-weight-semibold is-size-4" style="margin-bottom: 1rem;">Members</p>
+    {#---- ITERATE THROUGH MEMBERS QUERY RESULT SET ----#}
+    {% for m in members.items %}
+        <div class="notification is-dark">
+            <section class="columns is-vcentered">
+                <div class="column">
+                    <p class="has-text-info has-text-weight-semibold is-size-5"><a href = "{{ url_for('memberview', member_id=m.robot_id) }}">{{ m.robot_name }}</a></p>
+                    <p>member id: <span class = "has-text-info">{{ m.robot_id|int }}<span></p>
+                    <p>age: <span class = "has-text-info">{{ m.robot_age|int }}<span></p>
+                    <p>joined on: <span class = "has-text-info">{{ m.robot_joined }}<span></p>
+                </div>
+                <div class="column">
+                    <figure class="image">
+                    <img style = "margin:auto; width:150px; height: 150px; " class="has-background-light is-rounded" src="{{ m.robot_avatar }}">
+                    </figure>
+                </div>
+            </section>
+            </div>
+    {% endfor %}
+    
+    {% if members.has_prev %}
+        <a class = "has-text-info" href = "{{ url_for('members', page_number = members.prev_num) }} ">previous page</a>
+    {% endif %}
+    <a>current page ({{ members.page }})</a>
+    {% if members.has_next %}
+        <a class = "has-text-info"  href = "{{ url_for('members', page_number = members.next_num) }} ">next page</a>
+    {% endif %}
 </section>
 {% endblock content %}
