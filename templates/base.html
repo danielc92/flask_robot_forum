@@ -42,6 +42,8 @@
             {#---- LEFT PANEL ----#}
             
             <article class="column is-8">
+                {% block search %}
+                {% endblock search %}
                 {% block content %}
                 {% endblock content %}
             </article>
@@ -49,9 +51,8 @@
             {#---- RIGHT PANEL ----#}
 
             <article class="column is-4">
-                {% block search %}
-                {% endblock search %}
-                <div class="notification has-background-white">
+                
+                <div class="notification has-background-white has-text-centered-mobile">
                     <p class="has-text-weight-semibold is-size-4">New Members</p>
                     <ul class="menu-list">
                         {% for t in side_data['new-members'] %}

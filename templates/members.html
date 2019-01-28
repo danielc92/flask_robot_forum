@@ -12,29 +12,28 @@
     <p class="has-text-weight-semibold is-size-4" style="margin-bottom: 1rem;">Members</p>
     {#---- ITERATE THROUGH MEMBERS QUERY RESULT SET ----#}
     {% for m in members.items %}
-        <div class="notification is-dark">
+        <div class="notification is-white">
             <section class="columns is-vcentered">
-                <div class="column">
-                    <p class="has-text-info has-text-weight-semibold is-size-5"><a href = "{{ url_for('memberview', member_id=m.robot_id) }}">{{ m.robot_name }}</a></p>
-                    <p>member id: <span class = "has-text-info">{{ m.robot_id|int }}<span></p>
-                    <p>age: <span class = "has-text-info">{{ m.robot_age|int }}<span></p>
+                <div class="column has-text-centered-mobile">
+                    <p class="has-text-info has-text-weight-semibold is-size-5">{{ m.robot_name }}</p>
                     <p>joined on: <span class = "has-text-info">{{ m.robot_joined }}<span></p>
+                    <a class="button is-link is-small" style ="margin-top:.5rem;" href="{{ url_for('memberview', member_id=m.robot_id) }}">view profile</a>
                 </div>
                 <div class="column">
                     <figure class="image">
                     <img style = "margin:auto; width:150px; height: 150px; " class="has-background-light is-rounded" src="{{ m.robot_avatar }}">
                     </figure>
                 </div>
+
             </section>
             </div>
+            <hr>
     {% endfor %}
-    
     {% if members.has_prev %}
-        <a class = "has-text-info" href = "{{ url_for('members', search=search, page_number = members.prev_num) }} ">previous page</a>
+        <a class = "is-link button" href = "{{ url_for('members', search=search, page_number = members.prev_num) }} ">previous page</a>
     {% endif %}
-    <a>page {{ members.page|int }}</a>
     {% if members.has_next %}
-        <a class = "has-text-info"  href = "{{ url_for('members',search=search, page_number = members.next_num) }} ">next page</a>
+        <a class = "is-link button"  href = "{{ url_for('members',search=search, page_number = members.next_num) }} ">next page</a>
     {% endif %}
 </section>
 {% endblock content %}
