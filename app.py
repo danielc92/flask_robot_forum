@@ -34,6 +34,7 @@ class Robots(db.Model):
     robot_avatar = db.Column(db.Text)
     robot_age = db.Column(db.Float)
     robot_joined = db.Column(db.Text)
+    robot_image = db.Column(db.Text)
 
     def __repr__(self):
         """Return record string."""
@@ -92,7 +93,8 @@ R_columns = [R.robot_name,
              R.robot_age,
              R.robot_avatar,
              R.robot_joined,
-             R.robot_id]
+             R.robot_id,
+             R.robot_image]
 
 C_columns = [C.comment_content,
              C.comment_date,
