@@ -19,6 +19,18 @@
         body {
             font-family: 'Share Tech Mono', monospace;
         }
+
+        .star {
+            color:#f4bf42;
+        }
+
+        .daniels-date {
+            color: grey;
+        }
+
+        .daniels-small-font {
+            font-size: .9rem;
+        }
     </style>
 </head>
 
@@ -61,12 +73,14 @@
                                     <section class="columns is-vcentered">
                                         <div class = "column">
                                             <a style="padding:.5rem 0rem;" href="{{ url_for('memberview',member_id=t.robot_id) }}" class="has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</a>
-                                            <p class="has-text-grey-light is-size-7">Joined: {{ t.robot_joined}}</p>
+                                            <p class="daniels-date daniels-small-font">Joined: <strong>{{ t.robot_joined}}</strong></p>
                                         </div>
-                                        <div class="column">
-                                            <figure class="image">
-                                                <img style = "margin:auto; max-width:85px; min-width:75px;" class="has-background-light is-rounded" src="{{ url_for('static', filename=t.robot_image) }}">
+                                        <div class="column level">
+                                            <div class="level-item">
+                                            <figure class="image is-64x64">
+                                                <img class="has-background-light is-rounded" src="{{ url_for('static', filename=t.robot_image) }}">
                                             </figure>
+                                            </div>
                                         </div>
                                         
                                     </section>
@@ -83,7 +97,8 @@
                         <li>
                             <div class="notification has-background-white">
                                 <a class="has-text-info has-text-weight-semibold is-size-5" style="padding:.5rem 0rem;" href="{{ url_for('threadview', thread_id=t.thread_id) }}">{{ t.thread_name}}</a>
-                                <p class = "has-text-grey-light is-size-7">posted: {{ t.thread_date }} <i class="fas fa-star has-text-warning"></i><span>{{ t.thread_stars|int }}</span></p>
+                                <span class = "daniels-date daniels-small-font">posted: <strong>{{ t.thread_date }}</strong></span>
+                                <span class = "star daniels-small-font"><i class="fas fa-star"></i><span><strong>{{ t.thread_stars|int }}</strong></span>
                             </div>
                         </li>
                         {% endfor %}
@@ -98,10 +113,10 @@
                         <li>
                             <div class="notification has-background-white">
                                 <p class = "has-text-justified">{{ t.comment_content[:150] | replace('<br>','') }}...</p><br>
-                                <div class = "is-size-7">
-                                    <span class="has-text-grey-light">posted: {{ t.comment_date }}</span>
-                                    <i class="far fa-thumbs-up has-text-success "></i><span class="small">{{ t.comment_thumbs_up |int }}</span>
-                                    <i class="far fa-thumbs-down has-text-danger"></i><span class="small">{{ t.comment_thumbs_down |int }}</span>
+                                <div class = "daniels-small-font">
+                                    <span class="daniels-date">posted: <strong>{{ t.comment_date }}</strong></span>
+                                    <i class="far fa-thumbs-up has-text-success "></i><span class="daniels-date"><strong>{{ t.comment_thumbs_up |int }}</strong></span>
+                                    <i class="far fa-thumbs-down has-text-danger"></i><span class="daniels-date"><strong>{{ t.comment_thumbs_down |int }}</strong></span>
                                 </div>
                             </div>
                         </li>

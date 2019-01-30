@@ -2,22 +2,26 @@
 
 {% block content %}
 <section class="notification has-background-white">
-    <div class = "columns is-vcentered">
-        <div class = "image column is-3"><img class="is-rounded  has-background-warning" style="width:100px; height: 100px; margin:auto;" src="{{ thread.robot_avatar }}"></div>
+    <div class = "columns">
+        <div class = "column is-2 level">
+            <div class="level-item is-vcentered">
+                <figure class="image is-64x64">
+                    <img class="is-rounded has-background-warning" src="{{ thread.robot_avatar }}">   
+                </figure>
+            </div>
+        </div>
 
-        <div class="column is-9">
+        <div class="column is-10 has-text-centered-mobile">
             <p class="has-text-weight-semibold is-size-4">{{ thread.thread_name }}</p>
             <span class = "has-text-info">Author: <strong>{{ thread.robot_name }}</strong></span>
-             <span class = "has-text-primary">Posted: <strong>{{thread.thread_date}}</strong></span>
-    <i class = "fas fa-star has-text-warning"></i><span>{{ thread.thread_stars|int }}</span>
-        </div>
+            
+            <span class = "has-text-primary">Posted: <strong>{{thread.thread_date}}</strong></span>
+            <span class="star"><i class = "fas fa-star"></i><span><strong>{{ thread.thread_stars|int }}</strong></span></span>
         
-    
+        </div>
     </div>
-    
-
-   
-    <p class = "has-text-justified" style = "margin: .5rem 0;">{{ thread.thread_content | safe }}</p>
+       
+    <p class = "has-text-justified">{{ thread.thread_content | safe }}</p>
     
 </section>
 {% endblock content %}

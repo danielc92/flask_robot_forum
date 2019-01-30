@@ -19,7 +19,7 @@
                     <p>joined on: <span class = "has-text-info">{{ m.robot_joined }}<span></p>
                     <a class="button is-link is-small" style ="margin-top:.5rem;" href="{{ url_for('memberview', member_id=m.robot_id) }}">view profile</a>
                 </div>
-                <div class="column has-background-warning level">
+                <div class="column level">
                     <div class="level-item">
                         <figure class="image is-128x128">
                             <img src="{{ url_for('static', filename=m.robot_image) }}" class="has-background-light is-rounded">

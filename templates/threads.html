@@ -16,9 +16,11 @@
                 <div class="column">
                     <p class = "has-text-weight-semibold has-text-info is-size-4"><a href="{{ url_for('threadview', thread_id=t.thread_id) }}">{{ t.thread_name }}</a></p>
                     <p class = "has-text-justified" style = "margin: .5rem 0;">{{ t.thread_content[:160] }}...<a class = "has-text-link" href="{{ url_for('threadview', thread_id=t.thread_id) }}">read more</a></p>
-                    <span class = "has-text-grey-light is-size-7">posted: <strong>{{t.thread_date}}</strong></span>
-                    <span class = "has-text-info is-size-7">created by: <strong>{{ t.robot_name }}.</strong></span>
-                    <i class="fas fa-star has-text-warning"></i><span class = "has-text-warning is-size-7"> <strong>{{ t.thread_stars|int }}</strong></span>
+                    <div class="daniels-small-font">
+                        <span class = "daniels-date">posted: <strong>{{t.thread_date}}</strong></span>
+                        <span class = "has-text-info">created by: <strong>{{ t.robot_name }}.</strong></span>
+                        <i class="fas fa-star star"></i><span class = "star"> <strong>{{ t.thread_stars|int }}</strong></span>
+
                     {% set tags = t.thread_tags.split(',') %}
                     <div class="tags" style = "margin-top: .8rem;">
                         {% for tag in tags %}
