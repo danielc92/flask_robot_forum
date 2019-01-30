@@ -31,6 +31,10 @@
         .daniels-small-font {
             font-size: .9rem;
         }
+
+        .back-to-top:hover {
+            color:white;
+        }
     </style>
 </head>
 
@@ -136,6 +140,13 @@
         });
     </script>
 
+    <footer class= "has-background-dark has-text-white has-text-centered" style = "padding: 1.2rem 0rem; margin-top: 1.2rem;" >
+        <section>
+                <a href="#" class = "back-to-top has-text-weight-bold is-small">Back to top</a>
+                <p>This web application was designed and built by <span class="has-text-weight-bold">Daniel Corcoran.</span></p>
+                <img src="{{ url_for('static', filename='badges/made-with-bulma.png') }}" style="width:150px; margin-top: .4rem;">
+        </section>
+    </footer>
     
 </body>
 </html>
