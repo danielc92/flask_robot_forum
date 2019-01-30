@@ -11,6 +11,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 
+    {#--- SOME CUSTOM STYLES ---#}
     <style type="text/css">
         a {
             text-decoration:none !important;
@@ -67,7 +68,8 @@
             {#---- RIGHT PANEL ----#}
 
             <article class="column is-4">
-                
+
+                {#--- NEW MEMBERS SECTION ---#}
                 <div class="notification has-background-white has-text-centered-mobile">
                     <p class="has-text-weight-semibold is-size-4">New Members</p>
                     <ul class="menu-list">
@@ -94,6 +96,7 @@
                     </ul>
                 </div>
 
+                {#--- STARRED THREADS SECTION ---#}
                 <div class="notification has-background-white has-text-centered-mobile">
                     <p class="has-text-weight-semibold is-size-4">Starred Threads</p>
                     <ul class="menu-list">
@@ -109,6 +112,7 @@
                     </ul>
                 </div>
 
+                {#--- LATEST COMMENTS SECTION ---#}
                 <div class="notification has-background-white has-text-centered-mobile">
                     <p class="has-text-weight-semibold is-size-4">Recent Comments</p>
                     
@@ -131,6 +135,7 @@
         </section>
     </div>
 
+    {#--- SCRIPT HELPS NAV COLLAPSE/EXPAND IN SMALLER SCREEN SIZES ---#}
     <script type="text/javascript">
         var dropdown = document.querySelector('.navbar-burger');
         var menu = document.querySelector('.navbar-menu')
@@ -140,6 +145,7 @@
         });
     </script>
 
+    {#--- FOOTER ---#}
     <footer class= "has-background-dark has-text-white has-text-centered" style = "padding: 1.2rem 0rem; margin-top: 1.2rem;" >
         <section>
                 <a href="#" class = "back-to-top has-text-weight-bold is-small">Back to top</a>
