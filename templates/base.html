@@ -63,10 +63,12 @@
                                             <a style="padding:.5rem 0rem;" href="{{ url_for('memberview',member_id=t.robot_id) }}" class="has-text-info has-text-weight-semibold is-size-5">{{ t.robot_name }}</a>
                                             <p class="has-text-grey-light is-size-7">Joined: {{ t.robot_joined}}</p>
                                         </div>
-
-                                        <figure class="column image">
-                                            <img style = "margin:auto; width:70px; height: 70px; " class="has-background-light is-rounded" src="{{ url_for('static', filename=t.robot_image) }}">
-                                        </figure>
+                                        <div class="column">
+                                            <figure class="image">
+                                                <img style = "margin:auto; max-width:85px; min-width:75px;" class="has-background-light is-rounded" src="{{ url_for('static', filename=t.robot_image) }}">
+                                            </figure>
+                                        </div>
+                                        
                                     </section>
                                 </div>
                             </li>
@@ -95,7 +97,7 @@
                         {% for t in side_data['latest-comments'] %}
                         <li>
                             <div class="notification has-background-white">
-                                <p>{{ t.comment_content[:150] | replace('<br>','') }}...</p><br>
+                                <p class = "has-text-justified">{{ t.comment_content[:150] | replace('<br>','') }}...</p><br>
                                 <div class = "is-size-7">
                                     <span class="has-text-grey-light">posted: {{ t.comment_date }}</span>
                                     <i class="far fa-thumbs-up has-text-success "></i><span class="small">{{ t.comment_thumbs_up |int }}</span>
