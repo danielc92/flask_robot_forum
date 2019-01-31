@@ -103,6 +103,7 @@ C_columns = [C.comment_content,
              C.comment_thumbs_down,
              C.comment_thumbs_up]
 
+all_columns = T_columns + R_columns + C_columns
 
 # Helper Functions
 def clean_search(raw_search):
@@ -282,10 +283,14 @@ def test():
 @app.route('/test-join/')
 def testjoin():
     """Test join queries."""
-    query = C.query.join(R, R.robot_id == T.thread_robot_id)\
-                   .add_columns(R.robot_name)\
-                   .order_by(C.comment_id).limit(10)
+    thread_id = int(request.args.get('thread_id','1'))
+    query = C.query.join(T, C.comment_thread_id == T.thread_robot_id)\
+                   .join(R, R.robot_id == T.thread_robot_id)\
+                   .filter(T.thread_id == thread_id)\
+                   .add_columns(*all_columns)\
+                   .all()
 
     for q in query:
-        print(q.robot_name)
+        print(q.comment_content)
+
     return '<h1>Test Join Route</h1>'
