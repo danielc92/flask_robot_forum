@@ -238,9 +238,11 @@ def threadview():
     """Route to view a single thread."""
     thread_id = request.args.get('thread_id')
 
-    thread = T.query.join(R, R.robot_id == T.thread_robot_id)\
-                    .add_columns(*R_columns + T_columns)\
-                    .filter(T.thread_id == thread_id).first()
+    thread = C.query.join(T, C.comment_thread_id == T.thread_robot_id)\
+                    .join(R, R.robot_id == T.thread_robot_id)\
+                    .filter(T.thread_id == thread_id)\
+                    .add_columns(*all_columns).all()
+
     return render_template('thread-view.html', thread=thread, side_data=fetch_side_data())
 
 
@@ -287,7 +289,7 @@ def testjoin():
     query = C.query.join(T, C.comment_thread_id == T.thread_robot_id)\
                    .join(R, R.robot_id == T.thread_robot_id)\
                    .filter(T.thread_id == thread_id)\
-                   .add_columns(*all_columns)\
+                   .add_columns(*all_columns).order_by(C.comment_date)\
                    .all()
 
     for q in query:

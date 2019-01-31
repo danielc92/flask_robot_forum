@@ -6,22 +6,37 @@
         <div class = "column is-2 level">
             <div class="level-item is-vcentered">
                 <figure class="image is-64x64">
-                    <img class="is-rounded has-background-warning" src="{{ thread.robot_avatar }}">   
+                    <img class="is-rounded has-background-warning" src="{{ url_for('static', filename=thread[0].robot_image) }}">   
                 </figure>
             </div>
         </div>
 
         <div class="column is-10 has-text-centered-mobile">
-            <p class="has-text-weight-semibold is-size-4">{{ thread.thread_name }}</p>
-            <span class = "has-text-info">Author: <strong>{{ thread.robot_name }}</strong></span>
+            <p class="has-text-weight-semibold is-size-4">{{ thread[0].thread_name }}</p>
+            <span class = "has-text-info">Author: <strong>{{ thread[0].robot_name }}</strong></span>
             
-            <span class = "has-text-primary">Posted: <strong>{{thread.thread_date}}</strong></span>
-            <span class="star"><i class = "fas fa-star"></i><span><strong>{{ thread.thread_stars|int }}</strong></span></span>
+            <span class = "has-text-primary">Posted: <strong>{{thread[0].thread_date}}</strong></span>
+            <span class="star"><i class = "fas fa-star"></i><span><strong>{{ thread[0].thread_stars|int }}</strong></span></span>
         
         </div>
     </div>
        
-    <p class = "has-text-justified">{{ thread.thread_content | safe }}</p>
+    <p class = "has-text-justified">{{ thread[0].thread_content | safe }}</p>
+</section>
+<section class="notification has-background-white">
+    <p class="has-text-weight-semibold is-size-4" style = "margin-bottom: 1rem;">Comments</p>
+
+    {% for t in thread %}
+        <p style="padding-left:3rem;">{{ t.comment_content|safe }}<span class="daniels-date">{{ t.comment_date }} </span>
+
+        <i class="far fa-thumbs-up has-text-success "></i>
+        <span class="daniels-date">{{ t.comment_thumbs_up |int }}</span>
+        
+        <i class="far fa-thumbs-down has-text-danger"></i>
+        <span class="daniels-date">{{ t.comment_thumbs_down |int }}</span></p><br>
+        
+
+    {% endfor %}
     
 </section>
 {% endblock content %}
