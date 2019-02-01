@@ -224,26 +224,21 @@ def threads():
         return render_template('threads.html', threads=threads, search=search, side_data=fetch_side_data())
 
 
-
-    # page_number_string = request.args.get('page_number', '1')
-    # page_number = float(page_number_string)
-    # threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
-    #                  .add_columns(*R_columns + T_columns)\
-    #                  .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
-    # return render_template('threads.html', threads=threads, side_data=fetch_side_data())
-
-
 @app.route('/threads/view/')
 def threadview():
     """Route to view a single thread."""
     thread_id = request.args.get('thread_id')
 
-    thread = C.query.join(T, C.comment_thread_id == T.thread_robot_id)\
-                    .join(R, R.robot_id == T.thread_robot_id)\
-                    .filter(T.thread_id == thread_id)\
-                    .add_columns(*all_columns).all()
+    threads = T.query.join(R, T.thread_robot_id == R.robot_id)\
+                     .filter(T.thread_id == thread_id)\
+                     .add_columns(*R_columns + T_columns).all()
 
-    return render_template('thread-view.html', thread=thread, side_data=fetch_side_data())
+    comments = C.query.join(T, C.comment_thread_id == T.thread_robot_id)\
+                      .join(R, R.robot_id == T.thread_robot_id)\
+                      .filter(T.thread_id == thread_id)\
+                      .add_columns(*all_columns).all()
+
+    return render_template('thread-view.html', threads=threads, comments=comments, side_data=fetch_side_data())
 
 
 @app.route('/members/view/')
