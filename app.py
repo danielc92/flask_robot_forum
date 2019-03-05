@@ -9,11 +9,14 @@ import os
 from sqlalchemy import desc
 from sqlalchemy import and_
 #from sqlalchemy.sql import func
-
+from flask_caching import Cache
 app = Flask(__name__, static_folder='static')
+cache = Cache(app, config={'CACHE_TYPE':'simple'})
+
 app.debug = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PER_PAGE'] = 12
+app.config['CACHE_LIFE'] = 60 * 60
 current_directory = os.getcwd()
 database_path = '/notebooks/robot.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = \
@@ -131,7 +134,7 @@ def return_search_conditions(search_list, table_name):
     """Return list of search conditions using sqlalchemy."""
     if table_name == 'Robots':
         search_conditions = [R.robot_name.ilike('%{}%'.format(term)) for term in search_list]
-    elif table_name == 'Threads':   
+    elif table_name == 'Threads':
         search_conditions = [T.thread_name.ilike('%{}%'.format(term)) for term in search_list]
     return search_conditions
 
@@ -152,30 +155,35 @@ def fetch_side_data():
 
 
 @app.route('/')
+@cache.cached(timeout=300)
 def home():
     """Route to view news, the home page."""
     return render_template('home.html', side_data=fetch_side_data())
 
 
 @app.route('/contact/')
+@cache.cached(timeout=300)
 def contact():
     """Route to view news, the contact page."""
     return render_template('contact.html', side_data=fetch_side_data())
 
 
 @app.route('/sources/')
+@cache.cached(timeout=300)
 def sources():
     """Route to view news, the sources page."""
     return render_template('sources.html', side_data=fetch_side_data())
 
 
 @app.route('/about/')
+@cache.cached(timeout=300)
 def about():
     """Route to view news, the about page."""
     return render_template('about.html', side_data=fetch_side_data())
 
 
 @app.route('/members/', methods=['POST', 'GET'])
+@cache.cached(timeout=300)
 def members():
     """Route to view a multiple members."""
     if request.method == "POST":
@@ -195,8 +203,8 @@ def members():
         
         return render_template('members.html', members=members, search=search, side_data=fetch_side_data())
 
-
 @app.route('/threads/', methods = ['POST', 'GET'])
+@cache.cached(timeout=300)
 def threads():
     """Route to view multiple threads."""
     if request.method == "POST":
@@ -211,16 +219,15 @@ def threads():
             search_terms = return_search_terms(search)
             search_conditions = return_search_conditions(search_terms, 'Threads')
             threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
-                      .add_columns(*R_columns + T_columns)\
-                      .order_by(T.thread_name)\
-                      .filter(*search_conditions)\
-                      .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
+                             .add_columns(*R_columns + T_columns)\
+                             .order_by(T.thread_name)\
+                             .filter(*search_conditions)\
+                             .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
         else:
             threads = T.query.join(R, R.robot_id == T.thread_robot_id)\
                              .add_columns(*R_columns + T_columns)\
                              .order_by(T.thread_name)\
                              .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
-        
         return render_template('threads.html', threads=threads, search=search, side_data=fetch_side_data())
 
 
