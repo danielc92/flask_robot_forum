@@ -142,6 +142,21 @@ def return_search_conditions(search_list, table_name):
 def fetch_side_data():
     """Fetch right hand side bar data from database and return dictionary."""
     limit = 5
+    sidebar_data = cache.get('sidebar_data')
+
+    if not sidebar_data:
+        # Set cache
+        cache.set('sidebar_data',
+                  {'starred-threads': [i.__dict__ for i in T.query.order_by(desc(T.thread_stars)).limit(limit)],
+                   'new-members': [i.__dict__ for i in R.query.order_by(desc(R.robot_joined)).limit(limit)],
+                   'latest-comments': [i.__dict__ for i in C.query.order_by(desc(C.comment_date)).limit(limit)]}, 
+                   timeout=120)
+        sidebar_data = cache.get('sidebar_data')
+        return sidebar_data
+        # Get cache
+    return sidebar_data
+
+    '''
 
     starred_threads = T.query.order_by(desc(T.thread_stars)).limit(limit)
     new_members = R.query.order_by(desc(R.robot_joined)).limit(limit)
@@ -152,31 +167,28 @@ def fetch_side_data():
                     'latest-comments': latest_comments}
 
     return sidebar_data
+    '''
 
 
 @app.route('/')
-@cache.cached(timeout=300)
 def home():
     """Route to view news, the home page."""
     return render_template('home.html', side_data=fetch_side_data())
 
 
 @app.route('/contact/')
-@cache.cached(timeout=300)
 def contact():
     """Route to view news, the contact page."""
     return render_template('contact.html', side_data=fetch_side_data())
 
 
 @app.route('/sources/')
-@cache.cached(timeout=300)
 def sources():
     """Route to view news, the sources page."""
     return render_template('sources.html', side_data=fetch_side_data())
 
 
 @app.route('/about/')
-@cache.cached(timeout=300)
 def about():
     """Route to view news, the about page."""
     return render_template('about.html', side_data=fetch_side_data())
