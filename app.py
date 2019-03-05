@@ -78,7 +78,7 @@ class Comments(db.Model):
         """Return record string."""
         return '<comments %r>' % self.comment_id
 
-# Create alias for ORM classes
+# Create shorthand alias for ORM classes
 C = Comments
 T = Threads
 R = Robots
@@ -140,24 +140,25 @@ def return_search_conditions(search_list, table_name):
 
 
 def fetch_side_data():
-    """Fetch right hand side bar data from database and return dictionary."""
+    """Attempt to fetch OR set and fetch sidebar cached data, return a python dictionary."""
     limit = 5
     sidebar_data = cache.get('sidebar_data')
 
     if not sidebar_data:
-        # Set cache
+        # Set cached sidebar data
         cache.set('sidebar_data',
                   {'starred-threads': [i.__dict__ for i in T.query.order_by(desc(T.thread_stars)).limit(limit)],
                    'new-members': [i.__dict__ for i in R.query.order_by(desc(R.robot_joined)).limit(limit)],
-                   'latest-comments': [i.__dict__ for i in C.query.order_by(desc(C.comment_date)).limit(limit)]}, 
-                   timeout=120)
+                   'latest-comments': [i.__dict__ for i in C.query.order_by(desc(C.comment_date)).limit(limit)]},
+                  timeout=120)
+        # Get cached sidebar data
         sidebar_data = cache.get('sidebar_data')
         return sidebar_data
-        # Get cache
+
     return sidebar_data
 
-    '''
-
+    ''' fetch_side_data()
+    ### old code, this version does not use cache ###
     starred_threads = T.query.order_by(desc(T.thread_stars)).limit(limit)
     new_members = R.query.order_by(desc(R.robot_joined)).limit(limit)
     latest_comments = C.query.order_by(desc(C.comment_date)).limit(limit)
@@ -175,24 +176,20 @@ def home():
     """Route to view news, the home page."""
     return render_template('home.html', side_data=fetch_side_data())
 
-
 @app.route('/contact/')
 def contact():
     """Route to view news, the contact page."""
     return render_template('contact.html', side_data=fetch_side_data())
-
 
 @app.route('/sources/')
 def sources():
     """Route to view news, the sources page."""
     return render_template('sources.html', side_data=fetch_side_data())
 
-
 @app.route('/about/')
 def about():
     """Route to view news, the about page."""
     return render_template('about.html', side_data=fetch_side_data())
-
 
 @app.route('/members/', methods=['POST', 'GET'])
 def members():
@@ -211,7 +208,7 @@ def members():
                              .paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
         else:
             members = R.query.order_by(R.robot_name).paginate(page=page_number, per_page=app.config['PER_PAGE'], error_out=True)
-        
+
         return render_template('members.html', members=members, search=search, side_data=fetch_side_data())
 
 @app.route('/threads/', methods = ['POST', 'GET'])
@@ -280,12 +277,12 @@ def memberview():
                            member_data=member_data,
                            side_data=fetch_side_data())
 
-# Test Routes - for checking query results
 
 
+### Test Routes - for checking query results ###
 @app.route('/test-query/')
 def test():
-    """Test queries."""
+    """Test general queries."""
     robots = R.query.all()
     threads = T.query.all()
     comments = C.query.all()
