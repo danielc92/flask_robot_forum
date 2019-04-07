@@ -2,9 +2,36 @@
 
 {% block content %}
 <section class="notification has-background-white">
+	<div class="content">
+	<h2 id="about-about">About</h2>
+	<p>Robot forum is a forum-based web application built by <strong>Daniel Corcoran</strong>. The purpose of creating this application was to learn about the technical aspects of a relational database talking to a web application, feeding complex joins into rendering templates and deploying a web application to a PAAS (platform as a service). Themes such as pagination, ORMs, querying, rendering templates, dynamic routing, responsive design are covered here.</p>
 
-	<span class="has-text-weight-semibold is-size-4">About</span>
-	<p>This is Daniel Corcoran's web application.</p>
+	<h2 id="about-details">Details</h2>
+	<ul>
+		
+		<li>Gunicorn used as an WSGI</li>
+		<li>Python 3.6.5 was used as a backend</li>
+		<li>Jinja2 as a template engine</li>
+		<li>Flask used as a micro web framework</li>
+		<li>Flask-SQLAlchemy used as an ORM tool to map the database to the app</li>
+		<li>SQLite3 used to store the data</li>
+		<li>Web application is currently being hosted on Heroku, a platform as a service provider.</li>
+	</ul>
+
+	<h2 id="about-features">Features</h2>
+	<p>For source information please visit this <a class="has-text-link" href="{{ url_for('sources') }}">link</a></p>
+	<ul>
+		<li>Side panel with new members, starred threads and recent comments</li>
+		<li>Members route listing all registered members</li>
+		<li>Profile route listing details about a member, including posts and stars accumulated</li>
+		<li>Dynamic template design</li>
+		<li>News route</li>
+		<li>About, sources, features routes</li>
+		<li>Search functionality and pagination functionality built into members and threads routes</li>
+		<li>Robot avatars and thread text were generated using a third part service</li>
+
+	</ul>
+</div>
 
 </section>
 {% endblock content %}
